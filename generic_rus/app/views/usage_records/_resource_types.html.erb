@@ -1,0 +1,15 @@
+<% unless @usage_record.resource_types.empty? %>	
+	<tr id="extension_properties"><td colspan="2"><b>Extension properties</b></td></tr>
+	<% @usage_record.resource_types.each do |rt| %>
+		<tr>
+			<% if rt.description %>
+			<td><%=h rt.description.underscore.humanize %></td>
+			<% end %>
+			<% if rt.is_a?( ConsumableResourceType ) %>
+				<td><%=h rt.float_value.to_s %></td>				
+			<% else %>
+				<td><%=h rt.string_value %></td>
+			<% end %>
+		</tr>
+	<% end %>
+<% end %>

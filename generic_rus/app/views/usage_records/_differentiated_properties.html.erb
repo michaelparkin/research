@@ -1,0 +1,26 @@
+<% unless @usage_record.differentiated_properties.empty? %>	
+	<tr id="differentiated_properties"><td colspan="2"><b>Differentiated properties</b></td><tr>
+	<% @usage_record.differentiated_properties.each do |dp| %>
+		<tr>
+			<% if dp.is_a?( NumericDifferentiatedProperty ) %>
+				<td><%=h dp.class.to_s.underscore.humanize %> <%=h dp.metric.to_s.downcase %></td>
+				<td>
+					<table border="0">
+						<tr>
+							<td><%=h dp.value.to_s %> <%=h dp.storage_unit.to_s %></td>	
+							<td><%=h dp.phase_unit.to_s %></td>	
+							<td><%=h dp.consumption_rate.to_s %></td>
+						</tr>
+					</table>
+				</td>
+			<% else %>
+				<td><%=h dp.property_type.underscore.humanize %></td>
+				<% if dp.is_a?( TimeInstant ) %>
+					<td><%=h dp.time_instant.to_s %></td>	
+				<% elsif dp.is_a?( TimeDuration ) %>
+					<td><%=h dp.time_duration.to_s %></td>	
+				<% end %>				
+			<% end %>		
+		</tr>
+	<% end %>
+<% end %>

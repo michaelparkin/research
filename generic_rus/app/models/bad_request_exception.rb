@@ -1,0 +1,3 @@
+class BadRequestException < Exception  
+end
+

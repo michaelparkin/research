@@ -1,0 +1,7 @@
+<% key_info.attributes.sort.each do |k,v| %>
+	<% next if k.include?('id') || k.include?('type') || v.nil? %>
+	<tr>
+		<td><%=h k.humanize %></td>
+		<td><%=h v %></td>
+	</tr>
+<% end %>

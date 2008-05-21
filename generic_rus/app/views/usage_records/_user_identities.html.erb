@@ -1,0 +1,23 @@
+<% unless @usage_record.user_identities.empty? %>
+	<tr id="user_identities"><td colspan="2"><b>User Identities</b></td><tr>
+	<% id_count = 0 %>
+	<% @usage_record.user_identities.each do |uid| %>
+		<tr>
+			<td>Identity <%= id_count += 1%></td>				
+			<td>
+				<table border="0">
+					<% uid.attributes.sort.each do |k,v| %>
+						<% next if k == 'id' || k.include?( 'usage' ) || v.nil? %>
+						<tr>
+							<td><%=h k.humanize %></td>
+							<td><%=h v %></td>
+						</tr>
+					<% end %>
+					<% unless uid.key_info.nil? %>
+						<%= render :partial => 'key_info', :object => uid.key_info %>					
+					<% end %>
+				</table>
+			</td>
+		</tr>
+	<% end %>
+<% end %>

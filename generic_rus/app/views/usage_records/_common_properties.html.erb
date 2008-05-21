@@ -1,0 +1,15 @@
+<tr id="common_properties"><td colspan="2"><b>Common properties</b></td></tr>
+<% @usage_record.attributes.sort.each do |k,v| %>
+	<% next if k == 'id' || v.nil? %>
+	<% k = 'Uploaded at' if k == 'created_at' %>
+	<tr>	
+		<td><%=h k.humanize %></td>
+		<td><%=h v %></td>
+	</tr>
+<% end %>		
+
+<% unless @usage_record.key_info.nil? %>
+	<!-- identifies the entity that created a particular Usage Record -->
+	<tr id="key_info"><td colspan="2"><b>X509 Key Information</b></td></tr>	
+	<%= render :partial => 'key_info', :object => @usage_record.key_info %>
+<% end %>

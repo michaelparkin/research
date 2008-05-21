@@ -1,0 +1,21 @@
+# databasse
+db/*.sqlite3
+db/schema.rb
+
+# sphinx
+sphinx
+config/ultrasphinx/*.conf
+
+# documents, logs, reports
+coverage
+doc/api
+doc/app
+log/*.log
+
+# misc
+.DS_Store
+spec/fixtures/records/*.ur.xml
+tmp/**/*
+
+
+

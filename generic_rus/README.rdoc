@@ -1,0 +1,112 @@
+= Implementation of a Generic RUS Server in Ruby on Rails
+
+This Ruby-on-Rails application uses libxml's streaming parser to parse usage records (as defined in GFD-R-P.098) posted to the url http://{yourserver}/usage_records. Each HTTP post message must have the mime-type 'application/xml+gfd-r-p.098' (as specified in the file config/initializers/mime_types.rb) to tell the server to handle the message content as a usage record. Any other mime type will not be processed. There is no web form to upload usage records - all additions to the server must be done through a post command. E.g. for those familiar with curl this would be:
+
+  curl -v -d @{record_file} -H "Content-Type: application/xml+gfd-r-p.098" http://{yourserver}/usage_records
+
+Posts of multiple usage records must be wrapped in "<JobUsageRecords></JobUsageRecords>" tags to make the XMl well formed. If not, libxml will only recognise the first record and not parse the remaining records.
+
+The server attempts to be as flexible as possible when accepting usage records. For instance, if the 'recordIdentity' is blank a new, unique identifier will be assigned to the record. This behaviour exists so that the application producing the usage records doesn't have to do this which can, potentially, lead to a simpler usage record generation process. Also, any namespaces for the record tag attributes are allowed as they are removed by the parser (e.g. 'urwg:createTime' and 'urf:createTime' will be interpreted as 'createTime' ).
+
+All other conditions in GFD-R-P.098 are enforced by the server. For example;
+
+* The 'status' field must exist
+* The CPU duration must have a 'usageType' of either 'user' or 'system'
+* If a time duration, time instant or service level property type if included that property must include a 'type' field
+* Where relevant, integer types are also checked for
+
+For other checks see the model code (in the directory app/models). The ActiveRecord validations they contain are self-explanatory.
+
+The interface uses AJAX for pagination and sorting of table. However, if the browser does now support AJAX the interface should gracefully degrade back to standard html. We use the lowpro javascript library (in the file public/javascripts/lowpro.js) for this.
+
+A test suite is included in the distribution in 'spec' directory. This uses the rSpec Behaviour Driven Development framework for Ruby. To run use the 'rake spec' command.
+
+
+== Performance
+
+The server has been tested by loading the entire usage records created in 2006 and 2007 by the UK's NGS. The script to load the files can be found in script/performance/loader.rb. The stats for the service from the script were:
+
+=== 2006's Records
+* Total number of records					109,956
+* Total time taken						      4,370.947 seconds
+* Average time/record							  0.039 seconds
+* Average record size						  1,689     bytes
+
+=== 2007's Records
+* Total number of records					239,636
+* Total time taken							 23,159.707 seconds
+* Average time/record							  0.096 seconds
+* Average record size					       1,691    bytes
+
+=== Combined stats (from server log files)
+
+* Total records								349,592
+* Average time to complete record upload		  0.075 seconds
+* Average records/second						 22.629
+
+=== Notes: 
+
+1. In the test the script and the service were running on the same physical server
+2. The server was a Pentium 4 dual core running at 3 GHz, 1 GB RAM and MySQL 5.0.51a
+3. The combined stats were derived from information in the Rails log file using the script/performance/log_checker.rb script
+4. This test was on a well-used, shared server - YMMV
+
+
+== Record representations
+
+In an attempt to be RESTful, the server can transfer several different representations of the usage record to your client.
+
+* The default representation is HTML. To see a particular record, point your browser to http://{yourserver}/usage_records/{record_identity}
+
+* XML representations of usage records can be retrieved if the extension '.xml' is appended to the URL for the record, e.g:
+
+  curl http://{yourserver}/usage_records/{record_identity}.xml
+
+* An XML representation can also be retrieved through setting the accept value of the request to 'application/xml', e.g:
+
+  curl -H 'Accept: application/xml' http://{yourserver}/usage_records/{record_identity}
+
+* An ATOM representation of all the records can also be retrieved through adding the extension '.atom' to the URL for the records or setting the accept value of the request to 'application/atom', e.g:
+
+  curl http://{yourserver}/usage_records.atom
+  curl -H 'Accept: application/atom+xml' http://{yourserver}/usage_records
+
+
+== Ultrasphinx Setup
+
+  rake ultrasphinx:configure
+  rake ultrasphinx:index
+  rake ultrasphinx:daemon:start
+
+
+== Software dependencies
+
+* Rails 2.0.2
+* Ruby 1.8.6
+
+
+== Gem dependencies
+
+* will_paginate
+* libxml
+* mysql (if using mysql)
+
+
+== Todo list
+
+* When passed a big upload (how big is big?) the server should return a '202 Accepted' and parse the content later. At the moment there's the possibility of a DoS because Rails is single threaded.
+* Convert to Merb and Datamapper (replacing Rails and ActiveRecord).
+* Work out a URI query syntax for each usage record through ultrasphinx
+* rSpecs for controllers and views / increase test code coverage
+* Change formatting of durations in html views? (or is xsd:datetime understandable?)
+
+
+== Links
+
+* Usage record specification: http://www.ogf.org/documents/GFD.98.pdf
+* Thin: http://code.macournoyer.com/thin/
+* Libxml: http://libxml.rubyforge.org/
+* Datamapper: http://datamapper.org
+* will_paginate: http://github.com/mislav/will_paginate/wikis
+* low-pro: http://groups.google.co.uk/group/low-pro
+* rSpec: http://rspec.info/

@@ -1,0 +1,21 @@
+<h1>Usage records</h1>
+
+<%= render_partial( 'layouts/flash', :object => flash ) %>
+
+<hr/>
+
+<p>Search:
+<form name='sform'><%= text_field_tag( 'query', params['query'], :size => 30 ) %></form>
+</p>
+
+<p>
+<div class="table" id="results">
+  <%= render_partial( 'usage_records' ) %>
+</div>
+</p>
+
+<br/>
+<hr/>
+
+
+

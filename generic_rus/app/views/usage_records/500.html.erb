@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  	<%= stylesheet_link_tag "style" %>
+  	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  	<title>500 - Internal Server Error</title>
+  	<style type="text/css">h1 { color: #f00; }</style>
+</head>
+
+<body>
+	
+<div class="content">
+<div class="main">
+
+<h1>There was an internal server error.</h1>
+
+<% if flash[:notice] %>
+	<p><%=h flash[:notice] %></p>
+<% else %>
+	<p>Check the log file</p>
+<% end %>
+
+<p>Click <%= link_to 'here', usage_records_path %> to return to a list of usage records</p>
+
+</div>
+</div>
+</body>
+</html>

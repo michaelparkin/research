@@ -1,0 +1,33 @@
+<h1>Usage record details</h1>
+
+<%= render_partial( 'layouts/flash', :object => flash ) %>
+
+<hr id="top"/>
+
+<%= get_top_links %>
+
+<hr/>
+
+<div class="table">
+<table border="0" cellpadding="4" cellspacing="5">
+	
+	<!-- common properties -->
+	<%= render_partial( 'common_properties' ) %>	
+
+	<!-- user identities -->
+	<%= render_partial( 'user_identities' ) %>
+
+	<!-- differentiated properties -->
+	<%= render_partial( 'differentiated_properties' ) %>
+
+	<!-- resource types -->
+	<%= render_partial( 'resource_types' ) %>
+	
+</table>
+</div>
+
+<hr id="bottom"/>
+
+<%= get_bottom_links %>
+
+

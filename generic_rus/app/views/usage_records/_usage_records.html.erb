@@ -1,0 +1,34 @@
+<% if @usage_records.size == 0 %>
+	<p>No usage records found</p>
+<% else %>
+	<p><%= will_paginate @usage_records %></p>
+	<hr/>	
+	<table border="0" cellpadding="4" cellspacing="5">
+		<tr>
+			<td <%= sort_td_class_helper "record_identity" %>>
+				<%= sort_link_helper "Record identity", "record_identity" %>
+			</td>
+			<td <%= sort_td_class_helper "created_on" %>>
+		 		<%= sort_link_helper "Created on", "record_create_time" %>
+			</td>
+	   		<td <%= sort_td_class_helper "global_job_identity" %>>
+		 		<%= sort_link_helper "Global job identity", "global_job_identity" %>
+	   		</td>
+		</tr>				
+     	<% @usage_records.each do |ur| %>
+			<tr>
+       			<td><%= link_to ur.record_identity, usage_record_path( ur.record_identity ) %></td>
+	   			<% if ur.record_create_time %>
+         			<td><%= ur.record_create_time.strftime "%H:%M:%S %Z %a %d/%m/%Y" %></td>
+       			<% else %> 
+         			<td>-</td>
+				<% end %>
+				<% if ur.global_job_identity %>
+       				<td><%= ur.global_job_identity %></td>
+       			<% else %>
+					<td>-</td>
+				<% end %>
+     		</tr>
+     	<% end %>
+  	</table>
+<% end %>
