@@ -8,7 +8,7 @@ class CreateDifferentiatedProperties < ActiveRecord::Migration
       # differentiated properties: it is composed of :time_duration, :description and :property_type
 
       t.string    :property_type                    # for disk type, memory type, swap type, time duration type, 
-                                                    # time instant type and service level type
+                                                    # time instant type, service level type and cpu duration type
       
       # properties for numeric differentiated properties
       t.integer   :value
