@@ -32,10 +32,11 @@ class UsageRecordsController < ApplicationController
   # POST /usage_records.xml
   def create    
     if request.content_type == Mime::USAGE_RECORD_DOC
+      # this doesn't work if the content posted is just junk.
       if request.content_length > 0
         @messages, @errors = UsageRecordParser::parse( request.raw_post )   
         respond_to do |format|   
-          format.xml { render :xml => 'create.xml', :status => ( @errors.empty? ? :created : :unprocessable_entity ) }
+          format.xml { render :status => ( @errors.empty? ? :created : :unprocessable_entity ) }
         end
       else
         raise BadRequestException.new( "There is no content to process" )

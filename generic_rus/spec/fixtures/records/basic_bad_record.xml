@@ -1,4 +1,5 @@
 <JobUsageRecord xmlns="http://www.gridforum.org/2003/ur-wg" xmlns:urwg="http://www.gridforum.org/2003/ur-wg" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+	<!-- conflicting record identity! -->
 	<RecordIdentity urwg:recordId="abcdef" urwg:createTime=""/>
 	<!-- missing status element! -->
 </JobUsageRecord>
