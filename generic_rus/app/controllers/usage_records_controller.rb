@@ -31,7 +31,7 @@ class UsageRecordsController < ApplicationController
   # POST /usage_records
   # POST /usage_records.xml
   def create    
-    if request.content_type == Mime::USAGE_RECORD_DOC
+    if request.content_type == Mime::USAGE_RECORD_DOC      
       # this doesn't work if the content posted is just junk.
       if request.content_length > 0
         @messages, @errors = UsageRecordParser::parse( request.raw_post )   
