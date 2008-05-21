@@ -95,7 +95,7 @@ class UsageRecord < ActiveRecord::Base
   end
   
   def self.return_all_paginated( page, sort_by, sort_mode )
-    order = (sort_by.nil? || sort_by.empty?) ? 'created_at' : sort_by + ' ' + sort_mode   
+    order = (sort_by.nil? || sort_by.empty?) ? 'created_at' : sort_by + ' ' + get_sql_sort_mode( sort_mode )
     paginate :per_page => 10,
              :page => page,
              :order => order
@@ -108,6 +108,14 @@ class UsageRecord < ActiveRecord::Base
     #  :sort_by => sort_by || 'uploaded_at', 
     #  :sort_mode => sort_mode || 'ascending' 
     #).run
+  end
+  
+  def self.get_sql_sort_mode( sort_mode )
+    if sort_mode == 'descending'
+      'DESC'
+    else
+      'ASC'
+    end
   end
     
 end
