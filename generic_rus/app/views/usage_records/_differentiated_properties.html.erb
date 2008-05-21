@@ -14,7 +14,11 @@
 					</table>
 				</td>
 			<% else %>
-				<td><%=h dp.property_type.underscore.humanize %></td>
+				<% if dp.property_type %>
+					<td><%=h dp.property_type.underscore.humanize %></td>
+				<% else %>
+					<!-- anything? -->
+				<% end %>
 				<% if dp.is_a?( TimeInstant ) %>
 					<td><%=h dp.time_instant.to_s %></td>	
 				<% elsif dp.is_a?( TimeDuration ) %>
