@@ -1,0 +1,44 @@
+require 'rake/clean'
+require 'Date'
+
+CLEAN.include('*.log', '*.dvi', '*.mtc*', '*.aux', '*.tex')
+CLOBBER.include('*.pdf')
+
+CLASSPATH = '/Users/michael/Downloads/Software/Java/tla2'
+#TARGET = 'ChannelB'
+TARGET = 'NewSpec'
+
+SRC = FileList['*.tla', '*.cfg', 'Rakefile']
+now = DateTime.now
+
+rule '.tex' => '.tla' do |t|
+  sh "java -cp #{CLASSPATH} tlatex.TLA #{t.source}"
+end
+
+rule '.pdf' => '.tex' do |t|
+  sh "pdflatex #{t.source}"
+end
+
+task :tla => ["#{TARGET}.tla"] do
+  sh "java -cp #{CLASSPATH} tlasany.SANY #{TARGET}.tla"
+end
+
+task :tlc => ["#{TARGET}.tla", "#{TARGET}.cfg"] do 
+  sh "java -cp #{CLASSPATH} tlc.TLC -dump states -deadlock #{TARGET}.tla"
+end
+
+task :tlcd => ["#{TARGET}.tla", "#{TARGET}.cfg"] do 
+  sh "java -cp #{CLASSPATH} tlc.TLC -coverage 1 #{TARGET}.tla"
+end
+
+task :simulate => ["#{TARGET}.tla", "#{TARGET}.cfg"] do 
+  sh "java -cp #{CLASSPATH} tlc.TLC -simulate -deadlock #{TARGET}.tla"
+end
+
+task :pdf => ["#{TARGET}.pdf"] do
+  sh "open #{TARGET}.pdf"
+end
+
+task :backup => SRC do
+  sh "tar -cf backups/#{now.year}_#{now.month}_#{now.day}_#{now.hour}_#{now.min}.tar #{SRC}"
+end
