@@ -1,0 +1,10 @@
+# files to ignore
+*.aux
+*.bbl
+*.bib
+*.blg
+*.dvi
+*.log
+*.tex
+Rakefile
+backups/
