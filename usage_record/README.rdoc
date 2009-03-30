@@ -6,7 +6,7 @@ Where:  Barcelona Supercomputing Centre
 
 When:   October 2007
 
-This project contains Java classes to produce an XML document compliant with the Usage Record specification GFD.098 [1]. This project was created using IntelliJ IDEA 7.0.5, so you can use the .ipr, iml etc. files with this IntelliJ if necessary.
+This project contains Java classes to produce an XML document compliant with the Usage Record specification GFD.098 [1]. This project was created using IntelliJ IDEA 7.0.5, so you can use the .ipr, iml etc. files with this IntelliJ if required.
 
 ---
 === JAR Dependencies
@@ -30,7 +30,7 @@ These classes should be used as follows:
 
 4. At any time the usage record can be validated against the GFD.098 schema by calling the validate() method.
 
-5. The Usage Record in XML format can be obtained at any time by calling the toXml() method. If you want a pretty XML output (i.e., with line breaks and indentation) call the toPrettyXML().
+5. The Usage Record in XML format can be obtained at any time by calling the toXml() method. If you want a pretty XML output (i.e., with line breaks and indentation) call the toPrettyXML() method.
 
 ---
 === To do list:
