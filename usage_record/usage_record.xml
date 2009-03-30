@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="usage_record" default="all">
+  
+  
+  <property file="usage_record.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- The task requires the following libraries from IntelliJ IDEA distribution: -->
+  <!--   javac2.jar; jdom.jar; bcel.jar -->
+  <taskdef name="javac2" classname="com.intellij.uiDesigner.ant.Javac2"/>
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  <path id="jdk.classpath.1.5">
+    <fileset dir="${jdk.home.1.5}">
+      <include name="../Versions/1.5.0/Home/lib/deploy.jar"/>
+      <include name="../Versions/1.5.0/Classes/dt.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/javaws.jar"/>
+      <include name="../Versions/1.5.0/Classes/jce.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/plugin.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/sa-jdi.jar"/>
+      <include name="../Versions/1.5.0/Classes/charsets.jar"/>
+      <include name="../Versions/1.5.0/Classes/classes.jar"/>
+      <include name="../Versions/1.5.0/Classes/dt.jar"/>
+      <include name="../Versions/1.5.0/Classes/jce.jar"/>
+      <include name="../Versions/1.5.0/Classes/jconsole.jar"/>
+      <include name="../Versions/1.5.0/Classes/jsse.jar"/>
+      <include name="../Versions/1.5.0/Classes/laf.jar"/>
+      <include name="../Versions/1.5.0/Classes/ui.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/ext/apple_provider.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/ext/dnsns.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/ext/localedata.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/ext/sunjce_provider.jar"/>
+      <include name="../Versions/1.5.0/Home/lib/ext/sunpkcs11.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.5}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.5"/>
+  
+  
+  <!-- Global Libraries -->
+  
+  <path id="library.apache-log4j-1.2.classpath">
+    <pathelement location="/Users/michael/Downloads/Software/Java/apache-log4j-1.2.15/log4j-1.2.15.jar"/>
+  </path>
+  
+  <path id="library.jdom-1.1.classpath">
+    <pathelement location="/Users/michael/Downloads/Software/Java/jdom-1.1/build/jdom.jar"/>
+  </path>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module Usage Record -->
+  
+  <dirname property="module.usage_record.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.usage_record" value="${project.jdk.home}"/>
+  <property name="module.jdk.classpath.usage_record" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.usage_record" value="${compiler.args}"/>
+  
+  <property name="usage_record.output.dir" value="${module.usage_record.basedir}/bin"/>
+  <property name="usage_record.testoutput.dir" value="${module.usage_record.basedir}/bin"/>
+  
+  <path id="usage_record.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="usage_record.module.classpath">
+    <path refid="${module.jdk.classpath.usage_record}"/>
+    <path refid="library.apache-log4j-1.2.classpath"/>
+    <path refid="library.jdom-1.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.usage_record">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.usage_record">
+    <patternset refid="excluded.from.module.usage_record"/>
+  </patternset>
+  
+  <path id="usage_record.module.sourcepath">
+    <dirset dir="${module.usage_record.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.usage_record" depends="compile.module.usage_record.production,compile.module.usage_record.tests" description="Compile module Usage Record"/>
+  
+  <target name="compile.module.usage_record.production" description="Compile module Usage Record; production classes">
+    <mkdir dir="${usage_record.output.dir}"/>
+    <javac2 destdir="${usage_record.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memoryMaximumSize="${compiler.max.memory}" fork="true" executable="${module.jdk.home.usage_record}/bin/javac">
+      <compilerarg line="${compiler.args.usage_record}"/>
+      <bootclasspath refid="usage_record.module.bootclasspath"/>
+      <classpath refid="usage_record.module.classpath"/>
+      <src refid="usage_record.module.sourcepath"/>
+    </javac2>
+    
+    <copy todir="${usage_record.output.dir}">
+      <fileset dir="${module.usage_record.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.usage_record.tests" depends="compile.module.usage_record.production" description="compile module Usage Record; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.usage_record" description="cleanup module">
+    <delete dir="${usage_record.output.dir}"/>
+    <delete dir="${usage_record.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.usage_record" description="cleanup all"/>
+  
+  <target name="all" depends="init, clean, compile.module.usage_record" description="build all"/>
+</project>
