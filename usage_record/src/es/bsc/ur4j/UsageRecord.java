@@ -11,10 +11,7 @@ import org.jdom.JDOMException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 
-import java.util.Date;
-import java.util.Calendar;
-import java.util.TimeZone;
-import java.util.ArrayList;
+import java.util.*;
 import java.io.*;
 
 /**
@@ -280,8 +277,22 @@ public class UsageRecord {
         projectNameElements.add(newProjectNameElement);
     }
 
-    public final ArrayList<Element> getProjectNames() {
-        return projectNameElements;
+    /**
+     * Get a list of the project names.
+     *
+     * @return list of projects names in an array
+     */
+
+    public final String[] getProjectNames() {
+        String projectNames[] = new String[projectNameElements.size()];
+        Iterator<Element> itr= projectNameElements.iterator();
+        int i = 0;
+        while(itr.hasNext()) {
+            Element element = itr.next();
+            projectNames[i] = element.getText(); // is this correct?
+            i++;
+        }
+        return projectNames;
     }
 
     /**
@@ -397,6 +408,17 @@ public class UsageRecord {
         networkElements.add(newNetworkElement);
     }
 
+    /**
+     * Add a memory element to the document.
+     * This document not replace an element currently stored, only adds another.
+     *
+     * @param size
+     * @param unit
+     * @param metric
+     * @param type
+     * @param description
+     * @throws UsageRecordException if size < 0 or if unit, metric, type == null
+     */
 
     public final void addMemory(int size, Unit unit, Metric metric, MemoryType type, String description)
             throws UsageRecordException {
@@ -592,7 +614,7 @@ public class UsageRecord {
     /**
      * For testing building the UsageRecord.
      *
-     * @param args - not needed
+     * @param args not needed
      */
     public static void main(String[] args) {
 
