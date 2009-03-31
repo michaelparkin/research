@@ -51,7 +51,7 @@ These classes should be used as follows:
     
 5. Re-read the specification to check nothing is missing
 
-6. Tests
+6. Finish tests
 
 ---
 === References
