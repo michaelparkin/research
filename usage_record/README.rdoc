@@ -15,6 +15,8 @@ This project contains Java classes to produce an XML document compliant with the
 
 2. Log4J 1.2.15 [3]
 
+3. JUnit 4.5 [4]
+
 It's possible that earlier versions of these libraries work with these classes but I haven't tested them.
 
 ---
@@ -43,18 +45,15 @@ These classes should be used as follows:
    * getEndTime()
    * getDuration() (i.e., endTime - startTime) 
 
-2. toRUS. Want to implement a method that sends the usage record to a RUS given the EPR or URL of the service accepting records for persistant storage
+2. Finish tests
 
-3. Better JavaDoc comments. The parameters/arguments need relating to the definitions in the GFD.098 specification so there is no misunderstanding what they mean
+3. toRUS. Want to implement a method that sends the usage record to a RUS given the EPR or URL of the service accepting records for persistant storage
 
 4. For many of the items it's not possible to remove an entry from the UR after is has been added. At the moment I don't see this as a problem, but in the future it may be nice to have
-    
-5. Re-read the specification to check nothing is missing
-
-6. Finish tests
 
 ---
 === References
-[1] http://www.ogf.org/documents/GFD.98.pdf
-[2] http://www.jdom.org/
-[3] http://logging.apache.org/log4j/1.2/index.html
+1. http://www.ogf.org/documents/GFD.98.pdf
+2. http://www.jdom.org/
+3. http://logging.apache.org/log4j/1.2/index.html
+4. http://www.junit.org/node/401
