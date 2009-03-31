@@ -6,7 +6,7 @@ import junit.framework.TestSuite;
  * Date: Mar 31, 2009
  * Time: 10:45:27 AM
  */
-public class Ur4jTestSuite {
+public final class Ur4jTestSuite {
 
     public static Test suite() {
 

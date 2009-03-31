@@ -89,7 +89,7 @@ import java.security.*;
  * - Marc
  */
 
-public class RandomGUID {
+public final class RandomGUID {
 
     public String valueBeforeMD5 = "";
     public String valueAfterMD5 = "";

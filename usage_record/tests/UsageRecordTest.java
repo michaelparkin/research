@@ -5,5 +5,5 @@ import junit.framework.TestCase;
  * Date: Mar 31, 2009
  * Time: 10:46:53 AM
  */
-public class UsageRecordTest extends TestCase {
+public final class UsageRecordTest extends TestCase {
 }

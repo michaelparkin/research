@@ -6,7 +6,7 @@ import es.bsc.ur4j.RandomGUID;
  * Date: Mar 31, 2009
  * Time: 10:45:27 AM
  */
-public class RandomGUIDTest extends TestCase {
+public final class RandomGUIDTest extends TestCase {
 
     /**
      * Test unsecure, default constructor
