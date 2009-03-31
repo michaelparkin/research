@@ -31,6 +31,4 @@ public class Ur4jTestSuite {
     public static void main(String[] args) {
         junit.textui.TestRunner.run(suite());
     }
-
-
 }
