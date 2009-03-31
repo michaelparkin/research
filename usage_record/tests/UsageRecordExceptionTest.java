@@ -12,17 +12,33 @@ public final class UsageRecordExceptionTest extends TestCase {
      * Test default constructor
      */
     public void testUsageRecordException() {
-        UsageRecordException ure = new UsageRecordException();
-        // assert properties of ure
+        try {
+            throw new UsageRecordException();
+        }
+        catch (UsageRecordException ure) {
+            assertNotNull(ure);
+        }
     }
 
     /**
      * Test constructor with exception
      */
     public void testUsageRecordExceptionWithException() {
-        Exception e = new Exception("Test basic exception");
-        UsageRecordException ure = new UsageRecordException(e);
-        // assert properties of ure
+        String message = "this is a test message";
+
+        try {
+            throw new Exception(message);
+        }
+        catch (Exception e) {
+            try {
+                throw new UsageRecordException(e);
+            }
+            catch (UsageRecordException ure) {
+                Throwable cause = ure.getCause();
+                assertEquals(cause, e);
+                assertEquals(cause.getMessage(), message);
+            }
+        }
     }
 
     /**
@@ -30,7 +46,13 @@ public final class UsageRecordExceptionTest extends TestCase {
      */
     public void testUsageRecordExceptionWithMessage() {
         String message = "this is a test message";
-        UsageRecordException ure = new UsageRecordException(message);
-        // asert properties of ure
+
+        try {
+            throw new UsageRecordException(message);
+        }
+        catch (UsageRecordException ure) {
+            assertNotNull(ure);
+            assertEquals(message, ure.getMessage());
+        }
     }
 }
