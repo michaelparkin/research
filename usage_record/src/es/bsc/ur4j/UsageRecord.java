@@ -66,7 +66,7 @@ public class UsageRecord {
     /**
      * Set the record identity with a generated GUID for the recordId
      *
-     * @param setCreateTime
+     * @param setCreateTime true = set create time now
      */
     public final void setRecordId(boolean setCreateTime) {
         setRecordId(new RandomGUID().toString(), setCreateTime);
@@ -75,8 +75,10 @@ public class UsageRecord {
     /**
      * Set the record identity element. This is the first entry under the root element
      *
-     * @param recordId
-     * @param setCreateTime
+     * @param recordId the record identity of this record
+     * @param setCreateTime if true the create time is set to now
+     *
+     * @throws UsageRecordException if the recordId is null
      */
     public final void setRecordId(String recordId, boolean setCreateTime)
             throws UsageRecordException {
@@ -94,7 +96,7 @@ public class UsageRecord {
     /**
      * Get the record identity from the document
      *
-     * @return recordId
+     * @return recordId as a String
      */
     public final String getRecordId() {
         return root.getChild("RecordIdentity").getAttributeValue("recordId");
@@ -109,7 +111,6 @@ public class UsageRecord {
         String time = root.getChild("RecordIdentity").getAttributeValue("createTime");
         
     }/*
-
 
     /**
      * Set the job identity element of the document The second element under the root
@@ -134,7 +135,7 @@ public class UsageRecord {
     /**
      * Return the GlobalJobId from the document.
      *
-     * @return globalJobId
+     * @return globalJobId as a String
      */
     public final String getGlobalJobId() {
         return root.getChild("JobIdentity").getAttributeValue("GlobalJobId", urf);
@@ -143,7 +144,7 @@ public class UsageRecord {
     /**
      * Return the LocalJobId from the document.
      *
-     * @return localJobId
+     * @return localJobId as a String
      */
     public final String getLocalJobId() {
         return root.getChild("JobIdentity").getAttributeValue("LocalJobId", urf);
@@ -152,7 +153,7 @@ public class UsageRecord {
     /**
      * Return the ProcessId from the document.
      *
-     * @return processId
+     * @return processId as a String
      */
     public final String getProcessId() {
         return root.getChild("JobIdentity").getAttributeValue("ProcessId", urf);
@@ -161,7 +162,7 @@ public class UsageRecord {
     /**
      * Set the job name element with a description.
      *
-     * @param jobName
+     * @param jobName associated with this usage record
      * @param description (optional - may be null)
      */
     public final void setJobName(String jobName, String description) {
@@ -175,7 +176,7 @@ public class UsageRecord {
     /**
      * Get the job name from the document
      *
-     * @return jobName
+     * @return jobName as a String
      */
     public final String getJobName() {
         return root.getChildText("JobName");
@@ -184,7 +185,7 @@ public class UsageRecord {
     /**
      * Set the charge element of the usage record. All parameters may be null.
      *
-     * @param charge
+     * @param charge for this usage record
      * @param description (optional - may be null)
      * @param unit        (optional - may be null)
      * @param formula     (optional - may be null)
@@ -206,7 +207,7 @@ public class UsageRecord {
     /**
      * Return the charge for this usage record.
      *
-     * @return charge
+     * @return charge as a Float
      */
     public final Float getCharge() {
         return new Float(root.getChildText("Charge"));
@@ -215,7 +216,7 @@ public class UsageRecord {
     /**
      * Set the status with an optional description.
      *
-     * @param status
+     * @param status of the usage record
      * @param description (optional - may be null)
      */
     public final void setStatus(Status status, String description) {
@@ -229,7 +230,7 @@ public class UsageRecord {
     /**
      * Return the status of the job.
      *
-     * @return status
+     * @return status as a Status
      */
     public final Status getStatus() {
         return Status.valueOf(root.getChildText("Status"));
@@ -261,7 +262,7 @@ public class UsageRecord {
      * Add a project name and description to the document.
      * This does not replace an element currently stored, only adds another.
      *
-     * @param projectName
+     * @param projectName associated with this usage record
      * @param description (optional - may be null)
      */
     public final void addProjectName(String projectName, String description) {
@@ -282,7 +283,6 @@ public class UsageRecord {
      *
      * @return list of projects names in an array
      */
-
     public final String[] getProjectNames() {
         String projectNames[] = new String[projectNameElements.size()];
         Iterator<Element> itr= projectNameElements.iterator();
@@ -323,7 +323,7 @@ public class UsageRecord {
      * Adds a resource type to the document
      * This does not replace an element currently stored, only adds another.
      *
-     * @param resourceType
+     * @param resourceType "provides a mechanism to represent the consumption of an additional resource within the usage record" (GFD.098)
      * @param description (optional - may be null)
      */
 
@@ -348,7 +348,7 @@ public class UsageRecord {
      * Adds a disk element to the document
      * This does not replace an element currently stored, only adds another.
      *
-     * @param size
+     * @param size of the disk space used
      * @param description (optional - may be null)
      * @param type (optional - may be null)
      * @param metric (optional - may be null)
@@ -383,18 +383,22 @@ public class UsageRecord {
      * Add a network element to the document
      * This does not replace an element currently stored, only adds another.
      *
-     * @param size
-     * @param unit
-     * @param metric
+     * @param size the amount of network volume used
+     * @param unit    
+     * @param metric "this meta-property identifies the type of measurement used for quantifying the aresource consumption if there are multiple methods to measure resource usage" (GFD.098)
+     * @param description (optional - may be null)
      * @throws UsageRecordException if size < 0
      */
-    public final void addNetwork(int size, Unit unit, Metric metric) throws UsageRecordException {
+    public final void addNetwork(int size, Unit unit, Metric metric, String description) throws UsageRecordException {
 
          if (size < 0)
             throw new UsageRecordException("The size must be greater than zero");
 
         Element newNetworkElement = new Element("Network", def);
         newNetworkElement.addContent(Integer.toString(size));
+
+        if (parameterNotNull(description))
+            newNetworkElement.setAttribute("description", description, urf);
 
         if (unit != null)
             newNetworkElement.setAttribute("units", unit.toString(), urf);
@@ -412,11 +416,11 @@ public class UsageRecord {
      * Add a memory element to the document.
      * This document not replace an element currently stored, only adds another.
      *
-     * @param size
+     * @param size the amount of memory used
      * @param unit
-     * @param metric
-     * @param type
-     * @param description
+     * @param metric "this meta-property identifies the type of measurement used for quantifying the aresource consumption if there are multiple methods to measure resource usage" (GFD.098)
+     * @param type 
+     * @param description (optional - may be null)
      * @throws UsageRecordException if size < 0 or if unit, metric, type == null
      */
 
@@ -429,6 +433,9 @@ public class UsageRecord {
         Element newMemoryElement = new Element("Memory", def);
         newMemoryElement.addContent(Integer.toString(size));
 
+        if (parameterNotNull(description))
+            newMemoryElement.setAttribute("description", description, urf);
+        
         if (unit == null)
             throw new UsageRecordException("The units for memory must be specified");
         else
@@ -508,6 +515,8 @@ public class UsageRecord {
 
     /**
      * Helper method: build the xml document, adding the elements in the correct order
+     *
+     * @throws UsageRecordException if the recordIdElement or statusElement == null as they are required data
      */
     private void buildDocument() throws UsageRecordException {
         root.removeContent();
@@ -563,9 +572,10 @@ public class UsageRecord {
         return new XMLOutputter().outputString(document);
     }
 
-
     /**
      * Validate the UsageRecord against the UR.098 schema
+     *
+     * @return a boolean indicating if the validation succeeded
      */
     public final boolean validate() {
 
@@ -607,9 +617,9 @@ public class UsageRecord {
     /**
      * Send the UsageRecord to the RUS given in the EPR for storage
      */
-    public final void sendToRUS(String rusEpr) {
+    //public final void sendToRUS(String rusEpr) {
         // TODO : Send the  UR to the RUS given. SOAP or straight HTTP?
-    }
+    //}
 
     /**
      * For testing building the UsageRecord.
@@ -633,7 +643,7 @@ public class UsageRecord {
 
         // 'differentiated properties'
         ur.addDisk(100, "an example file size", DiskType.temp, Metric.total);
-        ur.addNetwork(100, Unit.MB, Metric.total);
+        ur.addNetwork(100, Unit.MB, Metric.total, null);
         ur.addMemory(100, Unit.MB, Metric.total, MemoryType.dedicated, null);
 
         // Check validation
