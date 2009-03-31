@@ -7,6 +7,8 @@ package es.bsc.ur4j;
  */
 public final class UsageRecordException extends RuntimeException {
 
+    public static final long serialVersionUID = 3L;
+
     public UsageRecordException() {
         super();
     }
