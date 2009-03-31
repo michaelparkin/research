@@ -563,14 +563,19 @@ public class UsageRecord {
         if (diskElements != null)           root.addContent(diskElements);
         if (networkElements != null)        root.addContent(networkElements);
         if (memoryElements != null)         root.addContent(memoryElements);
+
+        // TODO is this in the correct position?
+        if (resourceTypeElements != null)   root.addContent(resourceTypeElements);
+
     }
 
     /**
      * Helper method: return a pretty representation of the UsageRecord
      *
      * @return formatted xml document string
+     * @throws UsageRecordException if the recordId or status are null (they must be set)
      */
-    public final String toPrettyXml() {
+    public final String toPrettyXml() throws UsageRecordException {
         buildDocument();
         try {
             XMLOutputter xmlo = new XMLOutputter();
@@ -587,8 +592,9 @@ public class UsageRecord {
      * Helper method: return UsageRecord as a non-formatted string
      *
      * @return document as single-line string
+     * @throws UsageRecordException if the recordId or status are null (they must be set)
      */
-    public final String toXml() {
+    public final String toXml() throws UsageRecordException {
         buildDocument();
         return new XMLOutputter().outputString(document);
     }
@@ -603,8 +609,7 @@ public class UsageRecord {
         SAXBuilder builder = new SAXBuilder(true);
         builder.setFeature ("http://apache.org/xml/features/validation/schema", true);
         builder.setFeature ("http://apache.org/xml/features/validation/schema-full-checking", true);
-        builder.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation",
-                def.getURI());
+        builder.setProperty("http://apache.org/xml/properties/schema/external-schemaLocation", def.getURI());
 
         builder.setErrorHandler(new ErrorHandler() {
 
@@ -621,18 +626,26 @@ public class UsageRecord {
             }
         });
 
+        boolean validated = false;
+
         try {
-            builder.build(new StringReader(this.toXml()));
+            String document = this.toXml();
+            builder.build(new StringReader(document));
+            validated = true;
         }
         catch (JDOMException e) {
             log.error("Caught JDOM Exception: " + e.getMessage());
-            return false;
+            validated = false;
         }
         catch (IOException e) {
             log.error("Caught IOException: " + e.getMessage());
-            return false;
+            validated = false;
         }
-        return true;
+        catch (UsageRecordException e) {
+            log.error("Caught UsageRecordException: " + e.getMessage());
+            validated = false;
+        }
+        return validated;
     }
 
     /**
@@ -641,39 +654,4 @@ public class UsageRecord {
     //public final void sendToRUS(String rusEpr) {
         // TODO : Send the  UR to the RUS given. SOAP or straight HTTP?
     //}
-
-    /**
-     * For testing building the UsageRecord.
-     *
-     * @param args not needed
-     */
-    public static void main(String[] args) {
-
-        UsageRecord ur = new UsageRecord();
-
-        // Set properties
-        ur.setRecordId(true);
-        ur.setJobId("test", "test", "test");
-        ur.addUserId("local user id", "global user name");
-        ur.addUserId("another local id", "another global name");
-        ur.setJobName("My first grid job", "a test usage record for a test job");
-        ur.setCharge(new Float(1.00), "desc", "USD", "x=2y");
-        ur.setStatus(Status.Completed, "test");
-        ur.addProjectName("project name", "optional description");
-        ur.addProjectName("another project name", "another optional description");
-
-        // 'differentiated properties'
-        ur.addDisk(100, "an example file size", DiskType.temp, Metric.total);
-        ur.addNetwork(100, Unit.MB, Metric.total, null);
-        ur.addMemory(100, Unit.MB, Metric.total, MemoryType.dedicated, null);
-
-        // Check validation
-        if (ur.validate()) {
-            log.info("Usage Record was validated");
-            log.info(ur.toPrettyXml());
-        }
-        else {
-            log.error("Usage Record was NOT validated");
-        }
-    }
 }

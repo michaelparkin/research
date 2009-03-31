@@ -29,9 +29,10 @@
     <target name ="test" depends="compile">
         <junit printsummary="yes" haltonfailure="yes" haltonerror="yes" fork="yes">
             <formatter type="plain" usefile="false"/>
+            <!-- combine these into a testsuite? -->
             <test name="RandomGUIDTest"/>
             <test name="UsageRecordExceptionTest"/>
-            <!--<test name="UsageRecordTest"/>-->
+            <test name="UsageRecordTest"/>
             <classpath refid="classpath"/>
         </junit>
     </target>
