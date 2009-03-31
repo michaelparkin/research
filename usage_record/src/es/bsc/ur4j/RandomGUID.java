@@ -89,7 +89,7 @@ import java.security.*;
  * - Marc
  */
 
-public class RandomGUID extends Object {
+public class RandomGUID {
 
     public String valueBeforeMD5 = "";
     public String valueAfterMD5 = "";
@@ -115,9 +115,7 @@ public class RandomGUID extends Object {
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-
     }
-
 
     /*
      * Default constructor.  With no specification of security option,
@@ -152,7 +150,7 @@ public class RandomGUID extends Object {
 
         try {
             long time = System.currentTimeMillis();
-            long rand = 0;
+            long rand;
 
             if (secure) {
                 rand = mySecureRand.nextLong();
@@ -177,8 +175,8 @@ public class RandomGUID extends Object {
 
             byte[] array = md5.digest();
             StringBuffer sb = new StringBuffer();
-            for (int j = 0; j < array.length; ++j) {
-                int b = array[j] & 0xFF;
+            for (byte anArray : array) {
+                int b = anArray & 0xFF;
                 if (b < 0x10) sb.append('0');
                 sb.append(Integer.toHexString(b));
             }
@@ -189,7 +187,6 @@ public class RandomGUID extends Object {
             System.out.println("Error:" + e);
         }
     }
-
 
     /*
      * Convert to the standard format for GUID
