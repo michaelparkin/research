@@ -5,6 +5,8 @@
         <pathelement location="./common/jdom-1.1.jar"/>
         <pathelement location="./common/junit-4.5.jar"/>
         <pathelement location="./common/log4j-1.2.15.jar"/>
+        <pathelement location="./build"/>
+        <pathelement location="./tests"/>
     </path>
 
     <target name="init">
@@ -17,22 +19,29 @@
             <compilerarg value="-Xlint"/>
             <include name="**/*.java" />
         </javac>
+        <javac srcdir="tests" destdir="tests" debug="on">
+            <classpath refid="classpath"/>
+            <compilerarg value="-Xlint"/>
+            <include name="**/*.java" />
+        </javac>
     </target>
 
     <target name ="test" depends="compile">
-        <junit printsummary="yes" haltonfailure="yes" showoutput="yes">
+        <junit printsummary="yes" haltonfailure="yes" haltonerror="yes" fork="yes">
+            <formatter type="plain" usefile="false"/>
+            <test name="RandomGUIDTest"/>
+            <test name="UsageRecordExceptionTest"/>
+            <!--<test name="UsageRecordTest"/>-->
             <classpath refid="classpath"/>
-            <batchtest fork="yes" todir="tests">
-                <formatter type="xml"/>
-                <fileset dir="src">
-                    <include name="./tests/*Test*.java"/>
-                </fileset>
-            </batchtest>
         </junit>
     </target>
 
-    <target name="clean" description="clean up">
+    <target name="clean">
         <delete dir="build"/>
+        <delete>
+            <fileset dir="./tests" includes="**/*.class"/>    
+        </delete>
     </target>
 
 </project>
+        

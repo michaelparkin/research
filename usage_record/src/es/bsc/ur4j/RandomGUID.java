@@ -91,8 +91,8 @@ import java.security.*;
 
 public final class RandomGUID {
 
-    public String valueBeforeMD5 = "";
-    public String valueAfterMD5 = "";
+    //private String valueBeforeMD5 = "";
+    private String valueAfterMD5 = "";
     private static Random myRand;
     private static SecureRandom mySecureRand;
 
@@ -170,7 +170,7 @@ public final class RandomGUID {
             sbValueBeforeMD5.append(":");
             sbValueBeforeMD5.append(Long.toString(rand));
 
-            valueBeforeMD5 = sbValueBeforeMD5.toString();
+            String valueBeforeMD5 = sbValueBeforeMD5.toString();
             md5.update(valueBeforeMD5.getBytes());
 
             byte[] array = md5.digest();
@@ -207,17 +207,5 @@ public final class RandomGUID {
         sb.append(raw.substring(20));
 
         return sb.toString();
-    }
-
-    /*
-     * Demonstraton and self test of class
-     */
-    public static void main(String args[]) {
-        for (int i=0; i< 100; i++) {
-	    RandomGUID myGUID = new RandomGUID();
-	    System.out.println("Seeding String=" + myGUID.valueBeforeMD5);
-	    System.out.println("rawGUID=" + myGUID.valueAfterMD5);
-	    System.out.println("es.bsc.ur4j.RandomGUID=" + myGUID.toString());
-        }
     }
 }
