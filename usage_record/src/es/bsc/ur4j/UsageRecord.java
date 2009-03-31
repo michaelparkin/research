@@ -15,9 +15,32 @@ import java.util.*;
 import java.io.*;
 
 /**
- * User: Michael Parkin
- * Date: Oct 22, 2007
- * Time: 3:42:15 PM
+ * @author Michael Parkin, Oct 22, 2007
+ * <P>
+ * A class to create a standard usage record as defined in GFD.098.
+ * Many of the arguments to the methods of this class are the same with the same
+ * definition. The following is an alphabetical list of arguments and their meaning.
+ * <P>
+ * <UL>
+ * <LI> charge         : "represents the total charge of the job in the system's allocation unit"
+ * <LI> description    : "provides a mechanism for additional, optional information to be attached to a usage record element"
+ * <LI> formula        : "provides information about the charge calculation applied to this particular usage"
+ * <LI> globalJobId    : "the global job identifier as assigned by a metascheduler or federation scheduler"
+ * <LI> globalUserName : "the global identity of the user associated with the resource consumption reported in this usage record"
+ * <LI> jobName        : "the job or application name"
+ * <LI> localJobId     : "the local job identifier as assigned by the batch queue"
+ * <LI> localUserId    : "the user associated with the resource consumption reported in this usage record"
+ * <LI> metric         : "this meta-property identifies the type of measurement used for quantifying the aresource consumption if there are multiple methods to measure resource usage"
+ * <LI> processId      : "the process id of the jobs (PID)"
+ * <LI> projectName    : "provides additional information about project, for example a human readable project name"
+ * <LI> recordId       : "uniquely defines a record in the set of all usage record for the grid implementation"
+ * <LI> resourceType   : "provides a mechanism to represent the consumption of an additional resource within the usage record"
+ * <LI> size           : the amount of resource used. 
+ * <LI> status         : "specifies a completion status associated with the usage as a string"
+ * <LI> type           : "identifies the type of the resource being measure when quantifying the associated resource consumption"
+ * <LI> unit           : "expresses the unit of measurement in terms of volume, time or a combination of both"
+ * </UL>
+ * <P>
  */
 public class UsageRecord {
 
@@ -105,12 +128,11 @@ public class UsageRecord {
     /**
      * Get the time/date the record was created
      *
-     * @return createTime
+     * @return createTime in Utc (ISO8601) formatted string
      */
-    /*public final DateTime getCreateTime() {
-        String time = root.getChild("RecordIdentity").getAttributeValue("createTime");
-        
-    }/*
+    public final String getCreateTimeinUTC() {
+        return root.getChild("RecordIdentity").getAttributeValue("createTime");
+    }
 
     /**
      * Set the job identity element of the document The second element under the root
@@ -343,7 +365,6 @@ public class UsageRecord {
         resourceTypeElements.add(newResourceType);
     }
 
-
     /**
      * Adds a disk element to the document
      * This does not replace an element currently stored, only adds another.
@@ -384,7 +405,7 @@ public class UsageRecord {
      * This does not replace an element currently stored, only adds another.
      *
      * @param size the amount of network volume used
-     * @param unit    
+     * @param unit "expresses the unit of measurement in terms of volume, time or a combination of both" (GFD.098)  
      * @param metric "this meta-property identifies the type of measurement used for quantifying the aresource consumption if there are multiple methods to measure resource usage" (GFD.098)
      * @param description (optional - may be null)
      * @throws UsageRecordException if size < 0
@@ -417,9 +438,9 @@ public class UsageRecord {
      * This document not replace an element currently stored, only adds another.
      *
      * @param size the amount of memory used
-     * @param unit
+     * @param unit "expresses the unit of measurement in terms of volume, time or a combination of both" (GFD.098)
      * @param metric "this meta-property identifies the type of measurement used for quantifying the aresource consumption if there are multiple methods to measure resource usage" (GFD.098)
-     * @param type 
+     * @param type the type of memory used
      * @param description (optional - may be null)
      * @throws UsageRecordException if size < 0 or if unit, metric, type == null
      */
@@ -483,8 +504,8 @@ public class UsageRecord {
     /**
      * Helper method: pad out time representation to correct number of digits
      *
-     * @param value
-     * @param digits
+     * @param value the value to pad to the correct number of digits
+     * @param digits the number of digits to pad the value out to
      * @return string of correct length
      */
     private String padNumber(long value, int digits) {
