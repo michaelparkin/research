@@ -26,7 +26,7 @@ These classes should be used as follows:
 
 1. Create an object with the constructor.
 
-2. Set the recordId either automatically using the setRecordId(boolean setCreateTime) method or manually with the setRecordId(String recordId, boolean setCreateTime) method. The setCreateTime flag is used to set the create time of the record when the record id is set.
+2. Set the recordId either automatically using the setRecordId(boolean setCreateTime) method or manually with the setRecordId(String recordId, boolean setCreateTime) method. The setCreateTime flag is used to set the create time of the record when the record id is set; this behaviour has been adopted because sometimes you might want to leave the create time blank and set it only when the usage record is received at the service storing/processing the usage records. 
 
 3. The remaining set/get methods should be used to configure the usage record as required.
 
