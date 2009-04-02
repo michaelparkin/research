@@ -45,15 +45,18 @@ class Workflow
     return workflow_duration
   end
   
-  # return the sum of durations of all jobs
-  # this duration is equivalent to the CPU
-  # time required to complete the workflow
+  # return the sum of durations of all jobs.
+  # this duration is the sum of the CPU times 
+  # required to complete each task (i.e., the 
+  # duration of each task multiplied by the 
+  # number of CPUs required for the task).
   def total_duration
     total_duration = 0
     @jobs_by_time.each do |jobs|
       if jobs && !jobs.empty?
         jobs.each do |job|
-          total_duration += job.duration
+          job_time = job.duration * job.cpu_count
+          total_duration += job_time
         end
       end
     end
