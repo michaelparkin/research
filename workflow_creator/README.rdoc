@@ -31,8 +31,8 @@ This produces a simplistic, naive workflow; each task arriving at a particular t
 	ruby ./parser.rb <name and path of HTML file>
 	
 4. This will produce two files in the same directory as the HTML file containing the workload:
-	* workflow.dot is the DOT format [2] representation of the workflow (i.e., a graph)
-	* workflow.png is a visualisation of the workflow produced
+* workflow.dot is the DOT format [2] representation of the workflow (i.e., a graph)
+* workflow.png is a visualisation of the workflow produced
 
 5. If you'd like the visualisation in another format than png, you can edit the (obvious) part of the parser.rb script to  jpg, gif, svg or PostScript. Other formats are probably supported by dot too.
 
