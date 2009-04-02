@@ -51,4 +51,4 @@ This produces a simplistic, naive workflow; each task arriving at a particular t
 1. Viktor's Workload Generator http://hcw.cs.manchester.ac.uk:8080/viktor2/servlet/WorkloadGeneratorDemo
 2. The DOT Language http://www.graphviz.org/doc/info/lang.html
 3. Ruby Graph Library (RGL) http://rgl.rubyforge.org/rgl/index.html
-4. GraphViz http://www.graphviz.org/
+4. GraphViz http://www.graphviz.org
