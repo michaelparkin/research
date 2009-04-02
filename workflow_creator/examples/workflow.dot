@@ -9,11 +9,6 @@ digraph RGL__DirectedAdjacencyGraph {
         label = "#<Job:0x125df68>"
     ]
 
-    "#<Job:0x1293ba4>" [
-        fontsize = 8,
-        label = "#<Job:0x1293ba4>"
-    ]
-
     "#<Job:0x1219e80>" [
         fontsize = 8,
         label = "#<Job:0x1219e80>"
@@ -37,6 +32,11 @@ digraph RGL__DirectedAdjacencyGraph {
     "#<Job:0x1276810>" [
         fontsize = 8,
         label = "#<Job:0x1276810>"
+    ]
+
+    "#<Job:0x1293b90>" [
+        fontsize = 8,
+        label = "#<Job:0x1293b90>"
     ]
 
     "#<Job:0x122210c>" [
@@ -99,11 +99,6 @@ digraph RGL__DirectedAdjacencyGraph {
         label = "#<Job:0x126b960>"
     ]
 
-    "#<Job:0x1299824>" [
-        fontsize = 8,
-        label = "#<Job:0x1299824>"
-    ]
-
     "#<Job:0x121ca04>" [
         fontsize = 8,
         label = "#<Job:0x121ca04>"
@@ -154,11 +149,6 @@ digraph RGL__DirectedAdjacencyGraph {
         label = "#<Job:0x128df38>"
     ]
 
-    "#<Job:0x12b6578>" [
-        fontsize = 8,
-        label = "#<Job:0x12b6578>"
-    ]
-
     "#<Job:0x122cf1c>" [
         fontsize = 8,
         label = "#<Job:0x122cf1c>"
@@ -177,6 +167,16 @@ digraph RGL__DirectedAdjacencyGraph {
     "#<Job:0x126e4f8>" [
         fontsize = 8,
         label = "#<Job:0x126e4f8>"
+    ]
+
+    "#<Job:0x12997e8>" [
+        fontsize = 8,
+        label = "#<Job:0x12997e8>"
+    ]
+
+    "#<Job:0x12b6564>" [
+        fontsize = 8,
+        label = "#<Job:0x12b6564>"
     ]
 
     "#<Job:0x125b3d0>" [
@@ -244,9 +244,9 @@ digraph RGL__DirectedAdjacencyGraph {
         label = "#<Job:0x128a108>"
     ]
 
-    "#<Job:0x129f47c>" [
+    "#<Job:0x129f3a0>" [
         fontsize = 8,
-        label = "#<Job:0x129f47c>"
+        label = "#<Job:0x129f3a0>"
     ]
 
     "#<Job:0x125df68>" -> "#<Job:0x1258838>" [
@@ -254,18 +254,6 @@ digraph RGL__DirectedAdjacencyGraph {
     ]
 
     "#<Job:0x125df68>" -> "#<Job:0x125b3d0>" [
-        fontsize = 8
-    ]
-
-    "#<Job:0x1293ba4>" -> "#<Job:0x1287584>" [
-        fontsize = 8
-    ]
-
-    "#<Job:0x1293ba4>" -> "#<Job:0x128df38>" [
-        fontsize = 8
-    ]
-
-    "#<Job:0x1293ba4>" -> "#<Job:0x128a108>" [
         fontsize = 8
     ]
 
@@ -290,6 +278,18 @@ digraph RGL__DirectedAdjacencyGraph {
     ]
 
     "#<Job:0x1276810>" -> "#<Job:0x1271090>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x1293b90>" -> "#<Job:0x1287584>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x1293b90>" -> "#<Job:0x128df38>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x1293b90>" -> "#<Job:0x128a108>" [
         fontsize = 8
     ]
 
@@ -345,23 +345,11 @@ digraph RGL__DirectedAdjacencyGraph {
         fontsize = 8
     ]
 
-    "#<Job:0x1299824>" -> "#<Job:0x1287584>" [
-        fontsize = 8
-    ]
-
-    "#<Job:0x1299824>" -> "#<Job:0x128df38>" [
-        fontsize = 8
-    ]
-
-    "#<Job:0x1299824>" -> "#<Job:0x128a108>" [
-        fontsize = 8
-    ]
-
     "#<Job:0x1258838>" -> "#<Job:0x1255cb4>" [
         fontsize = 8
     ]
 
-    "#<Job:0x12a4ff8>" -> "#<Job:0x129f47c>" [
+    "#<Job:0x12a4ff8>" -> "#<Job:0x129f3a0>" [
         fontsize = 8
     ]
 
@@ -437,10 +425,6 @@ digraph RGL__DirectedAdjacencyGraph {
         fontsize = 8
     ]
 
-    "#<Job:0x12b6578>" -> "#<Job:0x12aac8c>" [
-        fontsize = 8
-    ]
-
     "#<Job:0x1240030>" -> "#<Job:0x123d498>" [
         fontsize = 8
     ]
@@ -450,6 +434,22 @@ digraph RGL__DirectedAdjacencyGraph {
     ]
 
     "#<Job:0x126e4f8>" -> "#<Job:0x126b960>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x12997e8>" -> "#<Job:0x1287584>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x12997e8>" -> "#<Job:0x128df38>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x12997e8>" -> "#<Job:0x128a108>" [
+        fontsize = 8
+    ]
+
+    "#<Job:0x12b6564>" -> "#<Job:0x12aac8c>" [
         fontsize = 8
     ]
 
@@ -509,11 +509,11 @@ digraph RGL__DirectedAdjacencyGraph {
         fontsize = 8
     ]
 
-    "#<Job:0x129f47c>" -> "#<Job:0x1293ba4>" [
+    "#<Job:0x129f3a0>" -> "#<Job:0x1293b90>" [
         fontsize = 8
     ]
 
-    "#<Job:0x129f47c>" -> "#<Job:0x1299824>" [
+    "#<Job:0x129f3a0>" -> "#<Job:0x12997e8>" [
         fontsize = 8
     ]
 }
