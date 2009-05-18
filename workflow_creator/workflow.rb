@@ -91,9 +91,13 @@ class Workflow
   def add_nodes_and_edges( jobs, next_jobs )
     if jobs && next_jobs
       jobs.each do |job|
+        #this_job_node = RGL::DOT::Node.new(  )
         next_jobs.each do |next_job|
+          #next_job_node = RGL::DOT::Node.new(  )
           # TODO: correct labels?
+          # TODO: How do we control the size of each node?
           @graph.add_edge( job, next_job )
+          #@graph.add_edge( this_job_node, next_job_node )
         end
       end
     end

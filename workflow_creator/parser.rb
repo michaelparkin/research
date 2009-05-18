@@ -61,7 +61,7 @@ end
 workflow.create_dependencies
 
 # visualise the workflow to a png file
-workflow.visualise_to_file( working_dir + '/workflow', 'png' )
+workflow.visualise_to_file( working_dir + '/workflow', 'eps' )
 
 # -- find workflow properties --
 p "Number of jobs: " + workflow.number_of_jobs.to_s
