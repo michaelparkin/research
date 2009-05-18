@@ -14,14 +14,8 @@ class Workflow
   
   def create_dependencies
     @graph = RGL::DirectedAdjacencyGraph.new
-    
-    last_jobs  = @jobs_by_time.last
-    last_index = @jobs_by_time.index( last_jobs )
-      
-    @jobs_by_time.each do |jobs|
-      jobs_index = @jobs_by_time.index( jobs )
-      next_jobs  = get_next_jobs( jobs_index, last_index )
-      add_nodes_and_edges( jobs, next_jobs )
+    @jobs_by_time.each do |jobs|  
+      add_nodes_and_edges( jobs )
     end
   end
   
@@ -75,31 +69,34 @@ class Workflow
     create_dependencies
     @graph.vertices.length
   end
+    
+  private 
+  def add_nodes_and_edges( next_jobs )
+    if next_jobs
+      new_nodes = []
 
-  private
-  def get_next_jobs( current_index, last_index )
-    next_jobs = nil
-    while current_index <= last_index
-        current_index += 1
-        next_jobs = @jobs_by_time[current_index] 
-        break if ( next_jobs && !next_jobs.empty? )
-    end
-    return next_jobs
-  end
-  
-  private
-  def add_nodes_and_edges( jobs, next_jobs )
-    if jobs && next_jobs
-      jobs.each do |job|
-        #this_job_node = RGL::DOT::Node.new(  )
-        next_jobs.each do |next_job|
-          #next_job_node = RGL::DOT::Node.new(  )
-          # TODO: correct labels?
-          # TODO: How do we control the size of each node?
-          @graph.add_edge( job, next_job )
-          #@graph.add_edge( this_job_node, next_job_node )
+      # create new nodes for the next jobs
+      next_jobs.each do |next_job|         
+        duration = next_job.duration
+        name = "%0.2f" % duration
+        height = duration/15
+        width = duration/15
+        node = RGL::DOT::Node.new( { 'name'=>name, 'height'=>height, 'width'=>width }, [ 'name', 'height', 'width' ] )
+        new_nodes << node
+      end
+        
+      # add the new nodes and edges from current -> new nodes
+      if @current_nodes
+        @current_nodes.each do |current_node|
+          #new_nodes.each { |new_node| @graph.add_edge( current_node, new_node ) }
+          new_nodes.each do |new_node|
+            pp new_node
+          end
         end
       end
+      
+      # set the new nodes to be current nodes
+      @current_nodes = new_nodes
     end
-  end 
+  end
 end
