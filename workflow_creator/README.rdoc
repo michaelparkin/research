@@ -44,7 +44,7 @@ If you'd like the visualisation in another format than png, you can edit the (ob
 
 == To do list
 
-* ?
+* Fix building of the graph and adding edges between nodes.
 
 == References
 
