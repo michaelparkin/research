@@ -1,11 +1,11 @@
-class Job
+class Task
   
-  attr_reader :time, :job_rate, :tightness, :cpu_count,
+  attr_reader :time, :task_rate, :tightness, :cpu_count,
               :duration, :earliest_start, :latest_finish
   
   def initialize( args )
     @time           = args[:time]
-    @job_rate       = args[:job_rate]
+    @task_rate      = args[:task_rate]
     @tightness      = args[:tightness]
     @cpu_count      = args[:cpu_count]
     @duration       = args[:duration]
