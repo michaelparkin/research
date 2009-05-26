@@ -50,7 +50,7 @@ class CostCalculator
     end
   end
   
-  def create_plot_file ( filename = 'out' )
+  def create_plot_file( filename )
     s = ""
     s << "unset log\n"
     s << "unset label\n"
@@ -60,7 +60,7 @@ class CostCalculator
     s << "unset ztics\n"
     s << "set size 1.0 ,1.0\n"
     s << "set title \"Cost vs. Time vs. Confidence\"\n"
-    s << "set label \"data\" at 2,0.5"
+    s << "set label \"data\" at 2,0.5\n"
     s << "set xtic auto\n"
     s << "set ytic auto\n"
     s << "set ztic 80000\n"
@@ -73,9 +73,9 @@ class CostCalculator
     s << "set pm3d\n"
     s << "set isosample 500\n"
     s << "set view 120,45\n"
-    s << "set term postscript eps color enh"
+    s << "set term postscript eps color enh\n"
     s << "set output \"#{filename}.eps\"\n"
-    s << "splot \"out.dat\"\n"
+    s << "splot \"#{filename}.dat\"\n"
     
     script_file_name = "#{filename}.p"
     File.open( script_file_name, 'wb' ) << s
