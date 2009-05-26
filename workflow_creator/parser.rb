@@ -68,7 +68,7 @@ class Parser
     workflow.create_dependencies
 
     # visualise the workflow to an eps file
-    workflow.visualise_to_file( @output_file, 'eps' )
+    workflow.visualise_to_file( @q_output_file, 'eps' )
 
     # -- find workflow properties --
     cpu_time = workflow.duration
@@ -90,8 +90,8 @@ class Parser
     #
     cc = CostCalculator.new( pen, te, tm, vb, vr )
     cc.gen_cost
-    cc.write_results( "#{@output_file}.dat" )
-    script = cc.create_plot_file( @output_file )
+    cc.write_results( "#{@q_output_file}.dat" )
+    script = cc.create_plot_script( @q_output_file )
     system( "gnuplot #{script}" ) # TODO: this does not output .eps file! why?!
     # -- end calculcation of costs --
   end

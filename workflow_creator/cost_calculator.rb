@@ -21,11 +21,11 @@ class CostCalculator
   def initialize( pen, te, tm, vb, vr )
     @pen, @te, @tm, @vb, @vr = pen, te, tm, vb, vr
     @confidences = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+    @results = []
   end
 
+  # for each level of confidence (0..1) increase the time and find the price
   def gen_cost
-    @results = []
-    # for each level of confidence (0..1) increase the time and find the price
     @confidences.each do |c| 
       ta = 0
       while ta <= @tm do
@@ -36,7 +36,8 @@ class CostCalculator
     end
   end
 
-  def write_results( filename = 'out.dat' )
+  def write_results( filename )
+    $stdout.print "Data file:\t#{filename}\n"
     if @results.empty?
       raise Exception.new( "Should generate results first" )
     else
@@ -50,7 +51,9 @@ class CostCalculator
     end
   end
   
-  def create_plot_file( filename )
+  def create_plot_script( filename )
+    script_file_name, dat_file_name, eps_file_name = "#{filename}.p", "#{filename}.dat", "#{filename}.eps"
+    $stdout.print "Plot script:\t#{script_file_name}\nData file (2):\t#{dat_file_name}\nEPS file:\t#{eps_file_name}\n"
     s = ""
     s << "unset log\n"
     s << "unset label\n"
@@ -60,24 +63,22 @@ class CostCalculator
     s << "unset ztics\n"
     s << "set size 1.0 ,1.0\n"
     s << "set title \"Cost vs. Time vs. Confidence\"\n"
-    s << "set label \"data\" at 2,0.5\n"
+    #s << "set label \"data\" at 2,0.5\n"
     s << "set xtic auto\n"
     s << "set ytic auto\n"
-    s << "set ztic 80000\n"
+    s << "set ztic auto\n"
     s << "set xlabel \"Time\"\n"
     s << "set ylabel \"Confidence\"\n"
     s << "set zlabel \"Cost\"\n"
-    s << "set zrange [0:550000]\n"
+    s << "set zrange [0:#{largest_cost}]\n"
     s << "set ticslevel 0\n"
     s << "set pointsize 0.2\n"
     s << "set pm3d\n"
     s << "set isosample 500\n"
     s << "set view 120,45\n"
     s << "set term postscript eps color enh\n"
-    s << "set output \"#{filename}.eps\"\n"
-    s << "splot \"#{filename}.dat\"\n"
-    
-    script_file_name = "#{filename}.p"
+    s << "set output \"#{eps_file_name}\"\n"
+    s << "splot \"#{dat_file_name}\"\n"    
     File.open( script_file_name, 'wb' ) << s
     script_file_name
   end

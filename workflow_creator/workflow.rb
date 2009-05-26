@@ -56,9 +56,10 @@ class Workflow
   
   # need to have dot[http://www.graphviz.org/]
   # in your application path for this to work
-  def visualise_to_file( filename, format)
-    src = filename + ".dot"
-    dot = filename + "." + format    
+  def visualise_to_file( filename, format )
+    dot_file = filename + ".dot"
+    graphics_file = filename + "." + format
+    
     viz = RGL::DOT::Digraph.new
 
     @graph.each_vertex do |v|
@@ -69,9 +70,8 @@ class Workflow
       #viz << RGL::DOT::DirectedEdge.new( 'from' => u.name, 'to' => v.name, 'fontsize' => '8' )
     end
       
-    File.open(src, 'w') << viz    
-    system( "dot -T#{format} #{src} -o #{dot}" )
-    dot
+    File.open( dot_file, 'w' ) << viz
+    system( "dot -T#{format} #{dot_file} -o #{graphics_file}" )
   end
   
   # the number of tasks is simply the
