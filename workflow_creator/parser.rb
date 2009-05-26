@@ -31,10 +31,10 @@ require 'workflow'
 
 class Parser
 
-  def initialize( workload_file, output_file_name )
+  def initialize( workload_file, output_file )
     @working_dir = File.dirname( workload_file )
     @workload_file = workload_file
-    @output_file = @working_dir + "/" + output_file_name
+    @q_output_file = @working_dir + "/" + output_file
   end
 
   def parse
