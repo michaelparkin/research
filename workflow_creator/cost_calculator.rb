@@ -37,7 +37,7 @@ class CostCalculator
   end
 
   def write_results( filename )
-    $stdout.print "Data file:\t#{filename}\n"
+    $stdout.print "Data file\t#{filename}\n"
     if @results.empty?
       raise Exception.new( "Should generate results first" )
     else
@@ -53,7 +53,9 @@ class CostCalculator
   
   def create_plot_script( filename )
     script_file_name, dat_file_name, eps_file_name = "#{filename}.p", "#{filename}.dat", "#{filename}.eps"
-    $stdout.print "Plot script:\t#{script_file_name}\nData file (2):\t#{dat_file_name}\nEPS file:\t#{eps_file_name}\n"
+    $stdout.print "Plot script\t#{script_file_name}\n"
+    $stdout.print "EPS file\t#{eps_file_name}\n"
+    #$stdout.print "(Data file\t#{dat_file_name})\n"
     s = ""
     s << "unset log\n"
     s << "unset label\n"
@@ -63,7 +65,6 @@ class CostCalculator
     s << "unset ztics\n"
     s << "set size 1.0 ,1.0\n"
     s << "set title \"Cost vs. Time vs. Confidence\"\n"
-    #s << "set label \"data\" at 2,0.5\n"
     s << "set xtic auto\n"
     s << "set ytic auto\n"
     s << "set ztic auto\n"
