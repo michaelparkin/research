@@ -1,0 +1,54 @@
+= Workflow Generator
+
+Author:: Michael Parkin, Tilburg University, 26/03/09.
+
+This script uses the output from 'Viktor's Workload Generator' [1] that produces a workload profile based on existing, well-known workload models. The tasks (or jobs) in the workload are given the properties:
+
+* Arrival time/current time (wallclock)
+* Job Rate
+* Tightness. An intermediate parameter that determines the time constraints (see the last two parameters in this list)
+* Number of CPU nodes required by the job
+* Job Duration time. The actual time it takes for the Job from start to finish. Can be viewed as projected Job duration time.
+* Earliest allowed start time for the job (wallclock).
+* Latest allowed finish time for the job (wallclock).
+
+=== Objective
+
+The Workload Generator produces these independent tasks so they can be used in scheduling optimisation experiments. The objective of this script is to create dependencies between these tasks so that we can generate a <em>workflow</em> from the set of parallel/non-dependent tasks Viktor's Workload Generator produces.
+
+=== How it does it
+
+The Workload Generator produces a list of tasks. Each task arrives at the provider/scheduler/resources at a specified time (given as the arrival time of the task). We use this time as the starting time of each task in the workflow. Jobs that follow the task in the workload are given a dependency that the tasks before it (at the previous timestep with executable tasks) must complete.
+
+This produces a simplistic, naive workflow; each task arriving at a particular timestep must finish before the tasks arriving at the next timestep can start. In the real world workflows can be much more complicated, with looping and intermediate tasks and more branching. The next step in this work is to try and include some of this behaviour.
+
+===How to use it
+
+1. Generate a set of jobs from Viktor's Workload Generator
+2. Save the HTML page it produces to disk as HTML
+3. Run the following
+	ruby ./parser.rb <name and path of HTML file>
+4. This will produce two files in the same directory as the HTML file containing the workload:
+* workflow.dot is the DOT format [2] representation of the workflow (i.e., a graph)
+* workflow.png is a visualisation of the workflow produced. The labels on each node represent the duration of the task.
+
+If you'd like the visualisation in another format than png, you can edit the (obvious) part of the parser.rb script to  jpg, gif, svg, eps or PostScript. Other formats are probably supported by dot too.
+
+== Code Dependencies
+
+* The Ruby Graph Library (RGL) [3] must be installed. This can be done through:
+
+	sudo gem install rgl
+
+* If you want to visualise the graph into a png, jpg or gif file then you will need the dot application (part of the GraphViz suite [4]) in your path. 
+
+== To do list
+
+* Fix building of the graph and adding edges between nodes.
+
+== References
+
+1. Viktor's Workload Generator http://hcw.cs.manchester.ac.uk:8080/viktor2/servlet/WorkloadGeneratorDemo
+2. The DOT Language http://www.graphviz.org/doc/info/lang.html
+3. Ruby Graph Library (RGL) http://rgl.rubyforge.org/rgl/index.html
+4. GraphViz http://www.graphviz.org
