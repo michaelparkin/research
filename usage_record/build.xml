@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="UsageRecord" default="compile" basedir=".">
+
+    <path id="classpath">
+        <pathelement location="./common/jdom-1.1.jar"/>
+        <pathelement location="./common/junit-4.5.jar"/>
+        <pathelement location="./common/log4j-1.2.15.jar"/>
+        <pathelement location="./build"/>
+        <pathelement location="./tests"/>
+    </path>
+
+    <target name="init">
+        <mkdir dir="build"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="src" destdir="build" debug="on">
+            <classpath refid="classpath"/>
+            <compilerarg value="-Xlint"/>
+            <include name="**/*.java" />
+        </javac>
+        <javac srcdir="tests" destdir="tests" debug="on">
+            <classpath refid="classpath"/>
+            <compilerarg value="-Xlint"/>
+            <include name="**/*.java" />
+        </javac>
+    </target>
+
+    <target name ="test" depends="compile">
+        <junit printsummary="yes" haltonfailure="yes" haltonerror="yes" fork="yes">
+            <formatter type="plain" usefile="false"/>
+            <!-- combine these into a testsuite? -->
+            <test name="RandomGUIDTest"/>
+            <test name="UsageRecordExceptionTest"/>
+            <test name="UsageRecordTest"/>
+            <classpath refid="classpath"/>
+        </junit>
+    </target>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete>
+            <fileset dir="./tests" includes="**/*.class"/>    
+        </delete>
+    </target>
+
+</project>
+        
